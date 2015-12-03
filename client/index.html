@@ -1,12 +1,18 @@
 <!DOCTYPE html>
-<html>
+<html np-app="RepsApp">
   <head>
     <meta charset="utf-8">
-    <title>Find your representative</title>
-    <!-- TODO You need to put your style imports here -->
+    <title></title>
+    <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
   </head>
   <body>
+    <h1>Find your representative</h1>
 
-    <!-- TODO You need to put your script tags here -->
+    <div ng-controller="RepsController as rep">
+      {{ rep.foo }}
+
+    </div>
+    <script src="bower_components/angular/angular.min.js"></script>
+    <script src="/js/app.js"></script>
   </body>
 </html>
