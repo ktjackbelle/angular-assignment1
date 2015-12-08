@@ -1,18 +1,80 @@
 <!DOCTYPE html>
-<html np-app="RepsApp">
-  <head>
-    <meta charset="utf-8">
-    <title></title>
-    <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
-  </head>
-  <body>
-    <h1>Find your representative</h1>
+<html ng-app="RepsApp">
 
-    <div ng-controller="RepsController as rep">
-      {{ rep.foo }}
+<head>
+  <meta charset="utf-8">
+  <title>Find your representative</title>
+  <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.min.css" />
+  <style>
+    body {
+      padding-top: 70px;
+    }
+  </style>
+</head>
 
+<body>
+  <nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a href="/" class="navbar-brand">Search your Reps</a>
+      </div>
     </div>
-    <script src="bower_components/angular/angular.min.js"></script>
-    <script src="/js/app.js"></script>
-  </body>
+  </nav>
+
+  <div ng-controller="MainCtrl as main" class="container">
+
+    <div class="radio">
+      <label>
+        <input type="radio" ng-model="main.congressType" value="reps" />
+        Representatives
+      </label>
+    </div>
+    <div class="radio">
+      <label>
+        <input type="radio" ng-model="main.congressType" value="sens" />
+        Senators
+      </label>
+    </div>
+
+    <form class="form-inline">
+      <select
+        class="form-control"
+        ng-model="main.criteria"
+        ng-options="item as item.label for item in main.apis"
+        ng-change="main.input = ''">
+      </select>
+      <input
+        class="form-control"
+        type="text"
+        ng-model="main.input"
+        ng-disabled="main.loading"
+        autofocus/>
+      <button
+        class="btn btn-info"
+        ng-click="main.criteria.method(main.input)"
+        ng-disabled="main.loading || !main.input"
+        type="submit">
+        Submit
+      </button>
+    </form>
+
+    <ul class="list-group">
+      <li class="list-group-item" ng-show="main.loading">
+        Loading...
+      </li>
+      <li class="list-group-item" ng-show="main.reps.length === 0 && !main.loading">
+        No Results
+      </li>
+      <li ng-hide="main.loading" class="list-group-item" ng-repeat="rep in main.reps">
+        <h4 class="list-group-item-heading">{{rep.name}}</h4>
+        <p>State: {{rep.state}}</p>
+      </li>
+    </ul>
+
+  </div>
+
+  <script src="/bower_components/angular/angular.min.js"></script>
+  <script src="/js/app.js"></script>
+</body>
+
 </html>
